@@ -4,6 +4,7 @@ CREATE TABLE users (
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
     role VARCHAR(50) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
 

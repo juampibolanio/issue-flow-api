@@ -23,7 +23,7 @@ public class UserMapper {
         return User.builder()
                 .name(dto.name())
                 .email(dto.email())
-                .password(dto.password())
+                .password(dto.password()) // the password here should be hashed. In the future, implement a password encoder
                 .role(dto.role())
                 .build();
     }

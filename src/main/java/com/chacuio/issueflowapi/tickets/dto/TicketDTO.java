@@ -2,6 +2,7 @@ package com.chacuio.issueflowapi.tickets.dto;
 
 import com.chacuio.issueflowapi.tickets.model.Priority;
 import com.chacuio.issueflowapi.tickets.model.State;
+import com.chacuio.issueflowapi.users.dto.UserSummaryDTO;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -13,8 +14,8 @@ public record TicketDTO(
         State state,
         Priority priority,
         boolean isActive,
-        UUID assignedId,
-        UUID reporterId,
+        UserSummaryDTO assignee,
+        UserSummaryDTO reporter,
         Instant createdAt,
         Instant updatedAt
 ) { }

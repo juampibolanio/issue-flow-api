@@ -1,9 +1,11 @@
 package com.chacuio.issueflowapi.tickets.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.UUID;
 
 public record AssignTicketRequestDTO(
-        UUID ticketId,
-        UUID assignedId
-        // el id del usuario que hizo la asignación va en el header, se lee de ahí
+        @NotNull(message = "The assignee ID is required")
+        UUID assigneeId
+        // the id of the user making the assignment goes in the request header
 ) { }

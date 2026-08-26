@@ -9,7 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
+import java.time.Clock;
+import java.time.Instant;
 
 @RestControllerAdvice
 @Slf4j
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
                 .message(ex.getMessage() + ": " + ex.getCause())
                 .status(HttpStatus.NOT_FOUND.value())
                 .path(req.getRequestURI())
-                .timestamp(LocalDateTime.now())
+                .timestamp(Instant.now(Clock.systemUTC()))
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
@@ -32,7 +33,7 @@ public class GlobalExceptionHandler {
                 .message(ex.getMessage() + ":" + ex.getCause())
                 .status(HttpStatus.CONFLICT.value())
                 .path(req.getRequestURI())
-                .timestamp(LocalDateTime.now())
+                .timestamp(Instant.now(Clock.systemUTC()))
                 .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
@@ -43,7 +44,7 @@ public class GlobalExceptionHandler {
                 .message("An error has occurred: " + ex.getCause())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .path(req.getRequestURI())
-                .timestamp(LocalDateTime.now())
+                .timestamp(Instant.now(Clock.systemUTC()))
                 .build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }

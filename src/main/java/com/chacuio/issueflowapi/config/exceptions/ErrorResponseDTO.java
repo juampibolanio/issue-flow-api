@@ -2,7 +2,7 @@ package com.chacuio.issueflowapi.config.exceptions;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,5 +12,5 @@ public class ErrorResponseDTO{
     private String message;
     private int status;
     private String path;
-    private LocalDateTime timestamp;
+    private Instant timestamp;
 }

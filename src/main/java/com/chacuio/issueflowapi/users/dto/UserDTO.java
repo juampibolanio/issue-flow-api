@@ -13,4 +13,4 @@ public record UserDTO (
         boolean isActive,
         Instant createdAt,
         Instant updatedAt
-){}
+) { }

@@ -60,13 +60,13 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public TicketDTO findById(UUID id) {
         Ticket ticket = ticketRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+                .orElseThrow(() -> new TicketNotFoundException(id));
         return mapper.toDto(ticket);
     }
 
     @Override
     @Transactional
-    public TicketDTO assign(UUID ticketId, AssignTicketRequestDTO dto, UUID reporterId) {
+    public TicketDTO assign(UUID ticketId, AssignTicketRequestDTO dto, UUID requesterId) {
         // validate if tickets exists
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
@@ -76,17 +76,20 @@ public class TicketServiceImpl implements TicketService {
             throw new TicketAlreadyClosed(ticketId);
         }
 
-        // validate if reporter and assignee users exists
-        User reporterUser = userRepository.findById(reporterId)
-                .orElseThrow(() -> new UserNotFoundException(reporterId));
+        // verify if reporter and assigned users have permission to assign the ticket
+        UUID reporterId = ticket.getReporter().getId();
+        UUID assignedId = (ticket.getAssigned() != null) ? ticket.getAssigned().getId() : null;
 
+        boolean isReporter = requesterId.equals(reporterId);
+        boolean isAssigned = requesterId.equals(assignedId);
+
+        if (!isReporter && !isAssigned) {
+            throw new AccessDeniedException("The user does not have permission to assign users to this ticket.");
+        }
+
+        // search assignee user
         User assigneeUser = userRepository.findById(dto.assigneeId())
                 .orElseThrow(() -> new UserNotFoundException(dto.assigneeId()));
-
-        // verify if reporter user have permission to assign the ticket
-        if (ticket.getReporter().getId() != reporterUser.getId()) {
-            throw new AccessDeniedException("The reporter user does not have permission to assign users to the indicated ticket");
-        }
 
         // assign ticket
         ticket.setAssigned(assigneeUser);

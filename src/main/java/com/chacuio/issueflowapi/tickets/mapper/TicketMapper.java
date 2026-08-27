@@ -3,12 +3,17 @@ package com.chacuio.issueflowapi.tickets.mapper;
 import com.chacuio.issueflowapi.tickets.dto.TicketDTO;
 import com.chacuio.issueflowapi.tickets.dto.TicketRequestDTO;
 import com.chacuio.issueflowapi.tickets.model.Ticket;
+import com.chacuio.issueflowapi.users.mapper.UserMapper;
 import com.chacuio.issueflowapi.users.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class TicketMapper {
-    public TicketDTO toDto(Ticket ticket, User assigned, User reporter) {
+    private final UserMapper userMapper;
+
+    public TicketDTO toDto(Ticket ticket) {
         return new TicketDTO(
                 ticket.getId(),
                 ticket.getTitle(),
@@ -16,8 +21,8 @@ public class TicketMapper {
                 ticket.getState(),
                 ticket.getPriority(),
                 ticket.isActive(),
-                assigned != null ? assigned.getId() : null,
-                reporter != null ? reporter.getId() : null,
+                userMapper.toSummary(ticket.getAssigned()),
+                userMapper.toSummary(ticket.getReporter()),
                 ticket.getCreatedAt(),
                 ticket.getUpdatedAt()
         );

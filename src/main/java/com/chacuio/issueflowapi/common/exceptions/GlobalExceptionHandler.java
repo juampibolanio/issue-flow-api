@@ -1,8 +1,8 @@
 package com.chacuio.issueflowapi.common.exceptions;
 
 import com.chacuio.issueflowapi.common.exceptions.dto.ErrorResponseDTO;
+import com.chacuio.issueflowapi.tickets.exception.TicketAlreadyClosed;
 import com.chacuio.issueflowapi.users.exceptions.EmailAlreadyExistsException;
-import com.chacuio.issueflowapi.users.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,22 +16,23 @@ import java.time.Instant;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> handleUserNotFoundException(UserNotFoundException ex, HttpServletRequest req) {
+    // ticket exceptions
+    @ExceptionHandler(TicketAlreadyClosed.class)
+    public ResponseEntity<ErrorResponseDTO> handleTicketAlreadyClosedException(TicketAlreadyClosed ex, HttpServletRequest req) {
         ErrorResponseDTO error = ErrorResponseDTO.builder()
-                .message(ex.getMessage() + ": " + ex.getCause())
-                .status(HttpStatus.NOT_FOUND.value())
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
                 .path(req.getRequestURI())
                 .timestamp(Instant.now(Clock.systemUTC()))
                 .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    // user exceptions
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex, HttpServletRequest req) {
         ErrorResponseDTO error = ErrorResponseDTO.builder()
-                .message(ex.getMessage() + ":" + ex.getCause())
+                .message(ex.getMessage())
                 .status(HttpStatus.CONFLICT.value())
                 .path(req.getRequestURI())
                 .timestamp(Instant.now(Clock.systemUTC()))
@@ -39,10 +40,34 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
+    // common exceptions
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleAccessDeniedException(AccessDeniedException ex, HttpServletRequest req) {
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.FORBIDDEN.value())
+                .path(req.getRequestURI())
+                .timestamp(Instant.now(Clock.systemUTC()))
+                .build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest req) {
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .path(req.getRequestURI())
+                .timestamp(Instant.now(Clock.systemUTC()))
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception ex, HttpServletRequest req) {
+        log.error("An unexpected error occurred: {}", ex.getMessage(), ex);
         ErrorResponseDTO error = ErrorResponseDTO.builder()
-                .message("An error has occurred: " + ex.getCause())
+                .message("An internal server error has occurred. Please contact support.")
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .path(req.getRequestURI())
                 .timestamp(Instant.now(Clock.systemUTC()))

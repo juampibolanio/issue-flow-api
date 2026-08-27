@@ -1,5 +1,6 @@
-package com.chacuio.issueflowapi.config.exceptions;
+package com.chacuio.issueflowapi.common.exceptions;
 
+import com.chacuio.issueflowapi.common.exceptions.dto.ErrorResponseDTO;
 import com.chacuio.issueflowapi.users.exceptions.EmailAlreadyExistsException;
 import com.chacuio.issueflowapi.users.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;

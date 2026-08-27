@@ -1,4 +1,4 @@
-package com.chacuio.issueflowapi.config.exceptions;
+package com.chacuio.issueflowapi.common.exceptions.dto;
 
 import lombok.*;
 

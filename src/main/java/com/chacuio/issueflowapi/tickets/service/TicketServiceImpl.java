@@ -31,7 +31,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public TicketDTO create(TicketRequestDTO dto) {
-        User reporter = null;
+        User reporter;
         User assigned = null;
 
         reporter = userRepository.findById(dto.reporterId())
@@ -53,7 +53,7 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> tickets = ticketRepository.findAll();
 
         return tickets.stream()
-                .map(ticket -> mapper.toDto(ticket))
+                .map(mapper::toDto)
                 .toList();
     }
 

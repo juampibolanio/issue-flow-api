@@ -1,6 +1,6 @@
 package com.chacuio.issueflowapi.tickets.service;
 
-import com.chacuio.issueflowapi.common.exceptions.AccessDeniedException;
+import com.chacuio.issueflowapi.common.exception.AccessDeniedException;
 import com.chacuio.issueflowapi.tickets.dto.AssignTicketRequestDTO;
 import com.chacuio.issueflowapi.tickets.dto.ChangeTicketStateDTO;
 import com.chacuio.issueflowapi.tickets.dto.TicketDTO;
@@ -11,7 +11,7 @@ import com.chacuio.issueflowapi.tickets.mapper.TicketMapper;
 import com.chacuio.issueflowapi.tickets.model.State;
 import com.chacuio.issueflowapi.tickets.model.Ticket;
 import com.chacuio.issueflowapi.tickets.repository.TicketRepository;
-import com.chacuio.issueflowapi.users.exceptions.UserNotFoundException;
+import com.chacuio.issueflowapi.users.exception.UserNotFoundException;
 import com.chacuio.issueflowapi.users.model.User;
 import com.chacuio.issueflowapi.users.repository.UserRepository;
 import jakarta.transaction.Transactional;

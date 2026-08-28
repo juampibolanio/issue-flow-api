@@ -5,7 +5,7 @@ import com.chacuio.issueflowapi.tickets.dto.AssignTicketRequestDTO;
 import com.chacuio.issueflowapi.tickets.dto.ChangeTicketStateDTO;
 import com.chacuio.issueflowapi.tickets.dto.TicketDTO;
 import com.chacuio.issueflowapi.tickets.dto.TicketRequestDTO;
-import com.chacuio.issueflowapi.tickets.exception.TicketAlreadyClosed;
+import com.chacuio.issueflowapi.tickets.exception.TicketAlreadyClosedException;
 import com.chacuio.issueflowapi.tickets.exception.TicketNotFoundException;
 import com.chacuio.issueflowapi.tickets.mapper.TicketMapper;
 import com.chacuio.issueflowapi.tickets.model.State;
@@ -73,7 +73,7 @@ public class TicketServiceImpl implements TicketService {
 
         // validate ticket state
         if (ticket.getState() == State.CLOSED) {
-            throw new TicketAlreadyClosed(ticketId);
+            throw new TicketAlreadyClosedException(ticketId);
         }
 
         // verify if reporter and assigned users have permission to assign the ticket

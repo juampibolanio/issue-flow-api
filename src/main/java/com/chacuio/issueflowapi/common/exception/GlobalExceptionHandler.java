@@ -1,7 +1,7 @@
 package com.chacuio.issueflowapi.common.exception;
 
 import com.chacuio.issueflowapi.common.exception.dto.ErrorResponseDTO;
-import com.chacuio.issueflowapi.tickets.exception.TicketAlreadyClosed;
+import com.chacuio.issueflowapi.tickets.exception.TicketAlreadyClosedException;
 import com.chacuio.issueflowapi.users.exception.EmailAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,8 @@ import java.time.Instant;
 @Slf4j
 public class GlobalExceptionHandler {
     // ticket exceptions
-    @ExceptionHandler(TicketAlreadyClosed.class)
-    public ResponseEntity<ErrorResponseDTO> handleTicketAlreadyClosedException(TicketAlreadyClosed ex, HttpServletRequest req) {
+    @ExceptionHandler(TicketAlreadyClosedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleTicketAlreadyClosedException(TicketAlreadyClosedException ex, HttpServletRequest req) {
         ErrorResponseDTO error = ErrorResponseDTO.builder()
                 .message(ex.getMessage())
                 .status(HttpStatus.BAD_REQUEST.value())

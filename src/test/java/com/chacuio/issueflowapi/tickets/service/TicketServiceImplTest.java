@@ -54,9 +54,7 @@ class TicketServiceImplTest {
         BDDMockito.given(ticketRepository.findById(ticketId)).willReturn(Optional.of(closedTicket));
 
         // act & assert
-        assertThrows(TicketAlreadyClosedException.class, () -> {
-            ticketService.assign(ticketId, dto, reporterId);
-        });
+        assertThrows(TicketAlreadyClosedException.class, () -> ticketService.assign(ticketId, dto, reporterId));
 
         BDDMockito.verify(ticketRepository, BDDMockito.never()).save(BDDMockito.any());
     }

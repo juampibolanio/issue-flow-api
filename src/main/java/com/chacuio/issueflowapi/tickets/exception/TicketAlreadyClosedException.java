@@ -2,12 +2,12 @@ package com.chacuio.issueflowapi.tickets.exception;
 
 import java.util.UUID;
 
-public class TicketAlreadyClosed extends RuntimeException {
-    public TicketAlreadyClosed(String message) {
+public class TicketAlreadyClosedException extends RuntimeException {
+    public TicketAlreadyClosedException(String message) {
         super(message);
     }
 
-    public TicketAlreadyClosed(UUID id) {
+    public TicketAlreadyClosedException(UUID id) {
         super("Ticket with id " + id + " has a closed status");
     }
 }

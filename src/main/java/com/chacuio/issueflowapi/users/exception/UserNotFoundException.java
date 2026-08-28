@@ -1,6 +1,6 @@
-package com.chacuio.issueflowapi.users.exceptions;
+package com.chacuio.issueflowapi.users.exception;
 
-import com.chacuio.issueflowapi.common.exceptions.ResourceNotFoundException;
+import com.chacuio.issueflowapi.common.exception.ResourceNotFoundException;
 
 import java.util.UUID;
 

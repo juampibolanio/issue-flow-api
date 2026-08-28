@@ -1,4 +1,4 @@
-package com.chacuio.issueflowapi.common.exceptions;
+package com.chacuio.issueflowapi.common.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

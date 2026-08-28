@@ -1,8 +1,8 @@
-package com.chacuio.issueflowapi.common.exceptions;
+package com.chacuio.issueflowapi.common.exception;
 
-import com.chacuio.issueflowapi.common.exceptions.dto.ErrorResponseDTO;
+import com.chacuio.issueflowapi.common.exception.dto.ErrorResponseDTO;
 import com.chacuio.issueflowapi.tickets.exception.TicketAlreadyClosed;
-import com.chacuio.issueflowapi.users.exceptions.EmailAlreadyExistsException;
+import com.chacuio.issueflowapi.users.exception.EmailAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

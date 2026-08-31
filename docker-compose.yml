@@ -1,5 +1,5 @@
 services:
-  postgres-db:
+  issueflow-db:
     image: postgres:18-alpine
     container_name: issue-flow-db
     restart: always
@@ -11,6 +11,17 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
+  issueflow-backend:
+    build: .
+    container_name: issueflow_api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - issueflow-db
+    environment:
+      DB_URL: jdbc:postgresql://issueflow-db:5432/issueflowdb
+      POSTGRES_USER: jpbolanio
+      POSTGRES_PASSWORD: juampi123
 
 volumes:
   postgres_data:
